@@ -41,6 +41,10 @@ public class Grabber extends Subsystem {
     // setDefaultCommand(new MySpecialCommand());
   }
 
+  public void setArmPower(double power) {
+    lift.set(power);
+  }
+
   @Override
   public void periodic() {
 

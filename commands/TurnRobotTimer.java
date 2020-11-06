@@ -34,9 +34,9 @@ public class TurnRobotTimer extends Command {
   @Override
   protected void execute() {
     if (targetTurnTime > 0) {
-      OI.m_drive.tankDrive(-0.3, 0.3);
-    } else {
       OI.m_drive.tankDrive(0.3, -0.3);
+    } else {
+      OI.m_drive.tankDrive(-0.3, 0.3);
     }
   }
 

@@ -26,7 +26,7 @@ public class PIDDriveForward extends Command {
     requires(OI.m_drive);
     targetDistance = Math.abs(distance);
     isNegative = (distance < 0);
-    power = kP/distance;
+    power = kP * distance;
   }
 
   // Called just before this Command runs the first time
@@ -45,11 +45,11 @@ public class PIDDriveForward extends Command {
     previousTime = m_timer.get();
 
     error = targetDistance - distanceSum;
-    power = kP/error;
+    power = kP * error;
     if (isNegative) {
-      OI.m_drive.tankDrive(power, power);
-    } else {
       OI.m_drive.tankDrive(-power, -power);
+    } else {
+      OI.m_drive.tankDrive(power, power);
     }
   }
 

@@ -31,7 +31,7 @@ public class Path2 extends CommandGroup {
     // a CommandGroup containing them would require both the chassis and the
     // arm.
 
-    addSequential(new DriveForwardTimer(-1));
+    addSequential(new DriveForwardTimer(-2));
     //addSequential(new TurnRobotTimer(2));
     //addSequential(new DriveForwardTimer(2));
     //addSequential(new TurnRobotTimer(-2));

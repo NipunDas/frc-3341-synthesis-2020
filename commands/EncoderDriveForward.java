@@ -11,22 +11,27 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import edu.wpi.first.wpilibj.Timer;
 
-public class DriveForwardTimer extends Command {
+public class EncoderDriveForward extends Command {
 
-  //Initializing new timer (b/c encoders don't work I think)
   private final Timer m_timer = new Timer();
-  double targetTime;
+  private double kP = 100; //kI = 1, kD = 1;
+  private double targetDistance, error, distanceTravelled;
+  private double power;
 
-  public DriveForwardTimer(double time) {
+  public EncoderDriveForward(double distance) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     requires(OI.m_drive);
-    targetTime = time;
+    targetDistance = distance;
+    error = distance;
+    power = kP * error;
+    distanceTravelled = 0;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    OI.m_drive.resetEncoders();
     m_timer.reset();
     m_timer.start();
   }
@@ -34,28 +39,22 @@ public class DriveForwardTimer extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (targetTime > 0) {
-      OI.m_drive.tankDrive(0.5, 0.5);
-    } else {
-      OI.m_drive.tankDrive(-0.5, -0.5);
-    }
+    distanceTravelled = OI.m_drive.returnDistance();
+    error = targetDistance - distanceTravelled;
+    power = kP * error;
+    OI.m_drive.tankDrive(power, power);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if (m_timer.get() >= Math.abs(targetTime)) {
-      return true;
-    } else {
-      return false;
-    }
+    return Math.abs(error) < 2;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
     OI.m_drive.tankDrive(0, 0);
-    m_timer.reset();
   }
 
   // Called when another command which requires one or more of the same

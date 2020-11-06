@@ -82,10 +82,11 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     String gameData = DriverStation.getInstance().getGameSpecificMessage();
+    
     if (gameData.length() > 0) {
-      m_autonomousCommand = new PIDDriveForward(Integer.parseInt(gameData));
+      m_autonomousCommand = new EncoderDriveForward(Integer.parseInt(gameData));
     } else {
-      m_autonomousCommand = new PIDDriveForward(50);
+      m_autonomousCommand = new EncoderDriveForward(50);
     }
     
     /*
@@ -110,8 +111,8 @@ public class Robot extends TimedRobot {
     } else {
       m_autonomousCommand = new Path1();
     }
-    */
-    
+    /*
+
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
      * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand

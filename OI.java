@@ -7,9 +7,11 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.subsystems.*;
 import frc.robot.RobotMap;
+import frc.robot.commands.ArmPID;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -44,17 +46,22 @@ public class OI {
   // until it is finished as determined by it's isFinished method.
   // button.whenReleased(new ExampleCommand());
 
-  public static XboxController xbox;
+  public static Joystick xbox;
   public static DriveTrain m_drive;
   public static Grabber m_grabber;
+  public static JoystickButton liftButton;
 
   public OI() {
     m_drive = DriveTrain.getInstance();
     m_grabber = Grabber.getInstance();
-    xbox = new XboxController(RobotMap.xboxPort);
+    xbox = new Joystick(RobotMap.xboxPort);
+
+    //button binding
+    liftButton = new JoystickButton(xbox, RobotMap.aButton);
+    liftButton.whenReleased(new ArmPID());
   }
 
-  public static XboxController returnController() {
+  public static Joystick returnController() {
     return xbox;
   }
 }

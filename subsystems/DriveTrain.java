@@ -23,13 +23,14 @@ public class DriveTrain extends Subsystem {
 
   private PWMTalonSRX left = new PWMTalonSRX(RobotMap.leftDrivePort), right = new PWMTalonSRX(RobotMap.rightDrivePort);
   public static DriveTrain drive;
-  private Encoder leftEncoder = new Encoder(0, 1), rightEncoder = new Encoder(2, 3);
+  private Encoder leftEncoder = new Encoder(5, 6), rightEncoder = new Encoder(3, 4);
   private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+  private double ticksToInches = (7 * Math.PI)/360;
 
   public DriveTrain() {
-    left.setInverted(true);
+    right.setInverted(true);
     leftEncoder.reset();
-    rightEncoder.reset();
+    leftEncoder.reset();
     gyro.reset();
   }
 
@@ -56,13 +57,11 @@ public class DriveTrain extends Subsystem {
   
   public void resetEncoders() {
     leftEncoder.reset();
-    rightEncoder.reset();
+    leftEncoder.reset();
   }
 
   public double returnDistance() {
-    double leftDistance = (leftEncoder.getRaw()/4096) * 3.5;
-    double rightDistance = (rightEncoder.getRaw()/4096) * 3.5;
-    return (leftDistance + rightDistance)/2;
+    return ((leftEncoder.getRaw() + rightEncoder.getRaw())/2) * ticksToInches;
   }
 
   public void resetGyro() {
@@ -81,6 +80,6 @@ public class DriveTrain extends Subsystem {
 
   @Override
   public void periodic() {
-    tankDrive(OI.returnController().getRawAxis(RobotMap.leftJoystick) * 0.3, OI.returnController().getRawAxis(RobotMap.rightJoystick) * 0.3);
+    tankDrive(OI.returnController().getRawAxis(RobotMap.leftJoystick) * -0.3, OI.returnController().getRawAxis(RobotMap.rightJoystick) * -0.3);
   }
 }
