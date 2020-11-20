@@ -17,7 +17,7 @@ public class PIDDriveForward extends Command {
   private double kP = 100;// kI = 1, kD = 1;
   private double targetDistance, error;
   private double previousTime = 0, distanceSum = 0, power, velocity, dt;
-  private double powerToVelocityConstant = 20;
+  private double powerToVelocityConstant = 40;
   private boolean isNegative;
 
   public PIDDriveForward(double distance) {
@@ -56,7 +56,7 @@ public class PIDDriveForward extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return error <= 0;
+    return Math.abs(error) < 5;
   }
 
   // Called once after isFinished returns true

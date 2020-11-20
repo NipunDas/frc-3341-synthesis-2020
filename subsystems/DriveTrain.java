@@ -40,7 +40,7 @@ public class DriveTrain extends Subsystem {
     }
     return drive;
   }
-
+  
   public void tankDrive(double leftPow, double rightPow) {
 
     //Minimizing error from small inputs

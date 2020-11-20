@@ -84,9 +84,9 @@ public class Robot extends TimedRobot {
     String gameData = DriverStation.getInstance().getGameSpecificMessage();
     
     if (gameData.length() > 0) {
-      m_autonomousCommand = new EncoderDriveForward(Integer.parseInt(gameData));
+      m_autonomousCommand = new DriveForwardTimer(Integer.parseInt(gameData));
     } else {
-      m_autonomousCommand = new EncoderDriveForward(50);
+      m_autonomousCommand = new DriveForwardTimer(50);
     }
     
     /*
